@@ -1,7 +1,4 @@
-# Google Serper (serper.dev) web search tool — used to evaluate
-# the agent on benchmarks that don't ship a vetted retrieval
-# corpus (e.g. BrowseComp). No MCP server needed; the LLM sees a
-# single ``search(query: str)`` tool that wraps GoogleSerperAPIWrapper.
+# Google Serper (serper.dev) web search tool
 agent:
   tool_provider: serper
   serper:

@@ -15,39 +15,17 @@ agent:
   llm_model: ${oc.env:AGENT_LLM_MODEL,Qwen/Qwen3.6-35B-A3B}
   llm_base_url: ${oc.env:AGENT_LLM_BASE_URL,http://localhost:8000/v1}
   llm_api_key: ${oc.env:AGENT_LLM_API_KEY,EMPTY}
-  # ``openai_compat`` (default) talks to any OpenAI-compatible server
-  # (vLLM, SGLang, vanilla OpenAI). ``openrouter`` switches to
-  # ``langchain-openrouter`` and uses openrouter.ai's native reasoning
-  # round-trip. Env-driven so you can flip all four ReAct loops with
-  # a single ``AGENT_LLM_PROVIDER=openrouter`` (the reflector and
-  # curator YAMLs fall back to this var).
   llm_provider: ${oc.env:AGENT_LLM_PROVIDER,openai_compat}
   llm_api_flavor: chat_completions
   temperature: 1.0
   top_p: 0.95
   max_response_tokens: 8192
-  # Match HiExp baseline exactly: thinking ON + preserve_thinking ON +
-  # NO format-spec / NO custom system prompt additions. Verified to
-  # produce committed answers with this LLM (`config/hiexp_prompt/base.yaml`
-  # uses the same flags and scores 27% on val_200).
   enable_thinking: true
   preserve_thinking: true
-  # Tool-backend selection + per-backend knobs live in
-  # ``config/ttl/tools/<name>.yaml`` (layered on top of this file by
-  # compose.py). E.g. mcp_url / mcp_transport for the MCP backend
-  # are set in ``tools/qwen3-8b.yaml`` / ``tools/mcp.yaml``;
-  # ``agent.serper.*`` lives in ``tools/serper.yaml``.
   max_search_limit: 30
   max_turn: 30
   timeout_s: 600.0
   tool_call_timeout_s: 60.0
-  # AgentIR-style reasoning-aware retrieval. When true, the string sent
-  # to the MCP search tool becomes ``Reasoning: <agent thinking this
-  # turn>\n\nQuery: <query>`` instead of the bare query. The LLM is NOT
-  # told about this — its conversation context (tool schema, the
-  # tool_call it emitted, the returned docs) is byte-identical to the
-  # false case; only the value physically passed to the retriever
-  # changes. Default false (vanilla retrieval).
   reasoning_aware_retrieval: false
 
 # ── rollout ──────────────────────────────────────────────────────────────

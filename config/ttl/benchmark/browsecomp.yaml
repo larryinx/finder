@@ -1,14 +1,7 @@
-# BrowseComp — open-web evaluation set (~1.2k decrypted from
-# browse_comp_test_set.csv). Eval-only: train/val/test all point at
-# the same JSONL since there are no per-split files. The agent uses
-# Google Serper (no MCP server, no per-corpus retriever) and renders
-# the official BrowseComp QUERY_TEMPLATE (no docid citation).
+# BrowseComp — open-web evaluation set
 
 data:
   benchmark: browsecomp
-  # ``decrypted_jsonl`` is BCP-specific; we point it at the same
-  # file so compose.validate's existence check passes without a
-  # branch. The browsecomp loader ignores this field.
   decrypted_jsonl: data/browsecomp/eval.jsonl
   splits:
     train: data/browsecomp/eval.jsonl

@@ -79,7 +79,7 @@ def validate(cfg: DictConfig) -> None:
       - per-step edit budgets are consistent
       - data files exist
       - env-resolved fields are non-empty
-      - actor mini/micro batch divisibility (verl-style constraints)
+      - actor mini/micro batch divisibility
     """
     c = cfg.curator.conservativeness
     if int(c.max_total_edits_per_step) < max(
@@ -89,7 +89,7 @@ def validate(cfg: DictConfig) -> None:
             "curator.conservativeness.max_total_edits_per_step must be ≥ max of the per-op caps"
         )
 
-    # ── verl-style batch sizing constraints ───────────────────────────────
+    # ── batch sizing constraints ───────────────────────────────
     G = int(cfg.rollout.n)
     micro = int(cfg.actor.micro_batch_size)
     mini = int(cfg.actor.mini_batch_size)

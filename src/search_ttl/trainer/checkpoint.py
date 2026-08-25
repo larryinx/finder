@@ -1,4 +1,4 @@
-"""CheckpointManager — verl-compatible naming + resume contract.
+"""CheckpointManager — naming + resume contract.
 
 - ``trainer.save_freq`` (int) — save every N curator steps; 0/-1 disables.
 - ``trainer.resume_mode`` ∈ {auto, disable, resume_path}

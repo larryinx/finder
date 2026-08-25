@@ -5,22 +5,9 @@ curator:
   llm_api_key: ${oc.env:CURATOR_LLM_API_KEY,${oc.env:AGENT_LLM_API_KEY,EMPTY}}
   max_react_turns: 36
   # ── LLM sampling for the curator ReAct loop ─────────────────────
-  # ``llm_provider`` chooses openai_compat (any OpenAI-compatible
-  # server) vs openrouter (langchain-openrouter). Falls back to
-  # ``AGENT_LLM_PROVIDER`` so flipping one env var moves all four
-  # ReAct loops together; override with ``CURATOR_LLM_PROVIDER`` to
-  # mix providers.
   llm_provider: ${oc.env:CURATOR_LLM_PROVIDER,${oc.env:AGENT_LLM_PROVIDER,openai_compat}}
-  # ``llm_api_flavor`` chooses chat_completions (HiExp's reasoning
-  # wrapper — preserves reasoning_content across turns when thinking
-  # is on) vs responses (OpenAI Responses API; reasoning handled
-  # natively). Ignored when ``llm_provider=openrouter``.
   llm_api_flavor: chat_completions
   enable_thinking: false
-  # Only meaningful when ``enable_thinking: true``. When both flags
-  # are on AND llm_api_flavor=chat_completions, prior turn's
-  # reasoning_content is re-injected on each request so the curator
-  # ReAct loop "remembers" its own thinking.
   preserve_thinking: true
   temperature: 0.2
   top_p: 0.95

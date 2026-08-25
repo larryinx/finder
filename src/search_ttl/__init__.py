@@ -1,6 +1,6 @@
 """TTL-Search: training-free GRPO over a search-agent's experience playbook.
 
-The package layout mirrors verl's decoupling pattern (trainer / rollout /
+The package layout mirrors the decoupling pattern (trainer / rollout /
 reward / algorithm / config), but every "weight update" is replaced with an
 LLM agent that reflects on rollouts and edits a markdown playbook.
 """

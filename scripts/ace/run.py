@@ -1,31 +1,4 @@
-"""ACE on a benchmark — entry point.
-
-Composition is YAML-driven via :mod:`hiexp.config_compose`:
-
-    python scripts/ace/run.py \\
-        --benchmark bcp --retriever qwen3-8b --mode offline \\
-        --save-path runs/ace/qwen35b_r8b \\
-        -o ace.num_epochs=2 splits.train=train100 splits.val=val20
-
-The composition order is base → benchmark → retriever → mode → CLI
-overrides (later wins). LLM / MCP endpoint settings come from
-``.env`` (AGENT_LLM_*, AGENT_MCP_URL); algorithmic knobs come from
-``config/ace/{base,benchmark,mode,retriever}/*.yaml``.
-
-Modes (paper §4.1, table 1):
-
-  --mode offline:    train on cfg.splits.train (cfg.splits.val picks best),
-                     test on cfg.splits.test with the best playbook frozen.
-  --mode online:     iterate cfg.splits.test in order; predict, then
-                     update playbook from that sample.
-  --mode eval_only:  no YAML mode/eval_only.yaml exists yet — pass
-                     ``--no-mode`` and ``-o ace.mode=eval_only`` plus
-                     ``--initial-playbook-path``.
-
-Add ``--no-ground-truth`` to deny the gold answer to the *Reflector*
-(the orchestrator still uses it via the LLM-as-judge in
-``answer_is_correct`` — this matches paper Table 1's GT-Labels column).
-"""
+"""ACE on a benchmark — entry point."""
 
 from __future__ import annotations
 

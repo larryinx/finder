@@ -1,0 +1,31 @@
+curator:
+  kind: react_tactic
+  llm_model: ${oc.env:CURATOR_LLM_MODEL,${oc.env:AGENT_LLM_MODEL,Qwen/Qwen3.6-35B-A3B}}
+  llm_base_url: ${oc.env:CURATOR_LLM_BASE_URL,${oc.env:AGENT_LLM_BASE_URL,http://localhost:8000/v1}}
+  llm_api_key: ${oc.env:CURATOR_LLM_API_KEY,${oc.env:AGENT_LLM_API_KEY,EMPTY}}
+  max_react_turns: 36
+  # ── LLM sampling for the curator ReAct loop ─────────────────────
+  # Same conventions as react_staged; see config/ttl/curator/react_staged.yaml
+  # for the full annotation of these knobs.
+  llm_provider: ${oc.env:CURATOR_LLM_PROVIDER,${oc.env:AGENT_LLM_PROVIDER,openai_compat}}
+  llm_api_flavor: chat_completions
+  enable_thinking: false
+  preserve_thinking: true
+  temperature: 0.2
+  top_p: 0.95
+  max_response_tokens: 8192
+  llm_timeout_s: 600.0
+  conservativeness:
+    # Rich-bullet bullets are roughly 4-6× the size of the old 200-char
+    # one-liners. Trim ADD slightly so each step prefers to MODIFY an
+    # existing bullet rather than spawn many large near-duplicates.
+    max_add_per_step: 5
+    max_modify_per_step: 5
+    max_delete_per_step: 5
+    max_total_edits_per_step: 12
+  # Playbook size budget, in characters of the rendered playbook.
+  # Structured / multi-line bullets are ~3× the size of one-liners,
+  # so keep this generous.
+  char_budget: 32000
+  reject_if_over_budget_ratio: 1.2
+  max_leftover_size: 200

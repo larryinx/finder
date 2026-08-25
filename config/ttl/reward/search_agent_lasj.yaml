@@ -1,0 +1,26 @@
+reward:
+  kind: search_agent_lasj
+  # Judge-only (LLM-as-judge) reward: one judge call per trajectory
+  # plus rule-based efficiency stats — no per-trajectory
+  # analyzer/summary LLM call. The querychain_* reflectors read
+  # RewardReport.judge directly and contrast against the shortest
+  # correct peer.
+  judge:
+    model: ${oc.env:EVAL_JUDGE_MODEL,${oc.env:AGENT_LLM_MODEL,Qwen/Qwen3.6-35B-A3B}}
+    base_url: ${oc.env:EVAL_JUDGE_BASE_URL,${oc.env:AGENT_LLM_BASE_URL,http://localhost:8000/v1}}
+    api_key: ${oc.env:EVAL_JUDGE_API_KEY,${oc.env:AGENT_LLM_API_KEY,EMPTY}}
+    # Falls back to AGENT_LLM_PROVIDER; override with EVAL_JUDGE_PROVIDER
+    # to keep the judge on a different provider than the rollout agent.
+    llm_provider: ${oc.env:EVAL_JUDGE_PROVIDER,${oc.env:AGENT_LLM_PROVIDER,openai_compat}}
+    template: bcp_grader
+    max_response_tokens: 8192
+    temperature: 0.0
+    top_p: 1.0
+    enable_thinking: true
+  # Chars of the judge's reasoning to keep in text_for_reflector (the
+  # rewards.jsonl audit string). The reflector itself reads the judge
+  # struct directly, so this is mostly for the audit trail.
+  judge_reasoning_max_chars: 2500
+  eval_lite: false
+  # Per-task reward fanout. With G=4, 4 score() calls run concurrently.
+  concurrency: 4

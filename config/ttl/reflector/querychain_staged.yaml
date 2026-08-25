@@ -1,0 +1,46 @@
+reflector:
+  kind: querychain_staged
+  llm_model: ${oc.env:REFLECTOR_LLM_MODEL,${oc.env:AGENT_LLM_MODEL,Qwen/Qwen3.6-35B-A3B}}
+  llm_base_url: ${oc.env:REFLECTOR_LLM_BASE_URL,${oc.env:AGENT_LLM_BASE_URL,http://localhost:8000/v1}}
+  llm_api_key: ${oc.env:REFLECTOR_LLM_API_KEY,${oc.env:AGENT_LLM_API_KEY,EMPTY}}
+  mcp_url: ${oc.env:AGENT_MCP_URL,http://127.0.0.1:8080/mcp}
+  mcp_transport: ${oc.env:AGENT_MCP_TRANSPORT,sse}
+  tool_call_timeout_s: 60.0
+  # ── Trajectory rendering. Controls how BOTH the agent's own
+  #    (incorrect) trajectory and the SHORTEST CORRECT contrast
+  #    trajectory are rendered in the reflector prompt. The current
+  #    playbook is intentionally NOT shown (see querychain_staged
+  #    module docstring).
+  traj_tool_result_visibility: title
+  traj_tool_result_max_chars_total: 5000
+  traj_tool_result_max_chars_per_hit: 1000
+  traj_reasoning_chars_per_step: 1000
+  # ── LIVE search tool calls the reflector itself makes during ReAct.
+  live_tool_result_visibility: full
+  live_tool_result_max_chars_total: 1500
+  live_tool_result_max_chars_per_hit: 500
+  max_react_turns: 20
+  max_search_calls: 20
+  concurrency: 4
+  allow_no_useful_insight: true
+  # ── LLM sampling for the reflector ReAct loop ─────────────────────
+  # ``llm_provider`` chooses openai_compat vs openrouter. Falls back
+  # to ``AGENT_LLM_PROVIDER`` so a single env var moves all four
+  # ReAct loops together; override with ``REFLECTOR_LLM_PROVIDER`` to
+  # mix providers.
+  llm_provider: ${oc.env:REFLECTOR_LLM_PROVIDER,${oc.env:AGENT_LLM_PROVIDER,openai_compat}}
+  # ``llm_api_flavor`` chooses chat_completions (HiExp's reasoning
+  # wrapper — preserves reasoning_content across turns when thinking
+  # is on) vs responses (OpenAI Responses API). Ignored when
+  # ``llm_provider=openrouter``.
+  llm_api_flavor: chat_completions
+  enable_thinking: false
+  # Only meaningful when ``enable_thinking: true``. When both are on
+  # AND llm_api_flavor=chat_completions, prior turn's reasoning_content
+  # is re-injected on each request so the reflector ReAct loop
+  # "remembers" its own thinking across turns.
+  preserve_thinking: true
+  temperature: 1.0
+  top_p: 0.95
+  max_response_tokens: 8192
+  llm_timeout_s: 600.0

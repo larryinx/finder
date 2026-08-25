@@ -1,0 +1,5 @@
+experience:
+  kind: tactic_playbook
+  # Sections are FIXED (Tactic A / B / C) — there is no `sections:` key.
+  # `init_from` optionally seeds the playbook from an existing file.
+  init_from: null

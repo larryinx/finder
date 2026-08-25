@@ -14,8 +14,12 @@ logs/
 # Related Repositories, if any
 # /related/
 
-# Raw dataset scratch (re-downloadable; see doc/stage0/{datasets,benchmarks}/*.md for commands)
-/data/raw/
+# Prepared datasets, run outputs and evaluation dirs — all re-generatable
+# (README §2 data prep, §4 experiments)
+/data/
+/runs/
+/evals/
+.hiexp_cache/
 
 /cache/
 *.db

@@ -1,0 +1,10 @@
+# Evaluate only — load a checkpoint, run val/test, no training.
+
+trainer:
+  resume_mode: resume_path
+  total_training_steps: 0
+  total_epochs: 0
+
+eval:
+  eval_every_n_steps: 0
+  final_eval_split: test

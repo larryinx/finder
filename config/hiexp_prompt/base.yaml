@@ -1,0 +1,88 @@
+# Defaults shared across all HiExp tasks (eval + HEK build) and all benchmarks.
+# Anything benchmark-specific lives under benchmark/<name>.yaml; anything
+# retriever-specific lives under retriever/<name>.yaml.
+#
+# Deployment-specific fields (LLM endpoint, MCP URL, judge endpoint) are NOT
+# in YAML — they come from .env so the same config can be reused across
+# machines without editing it. See HiExpConfig.from_omegaconf for resolution.
+
+llm:
+  temperature: 1.0
+  top_p: 0.95
+  max_response_tokens: 8192
+
+  # Which OpenAI-compatible endpoint flavor to talk to.
+  #   responses         — vLLM 0.19+ /v1/responses (paper-faithful)
+  #   chat_completions  — SGLang or older vLLM /v1/chat/completions
+  api_flavor: chat_completions
+
+  enable_thinking: true
+
+  # When True, send ``chat_template_kwargs.preserve_thinking=True`` to the
+  # server AND attach ``reasoning_content`` back onto outgoing assistant
+  # messages so SGLang's chat template can keep prior-turn ``<think>``
+  # blocks in the rendered prompt. Verified empirically on the SGLang
+  # endpoint (Qwen3.6-35B-A3B): ``preserve_thinking=True`` + assistant
+  # ``reasoning_content`` field bumps prompt_tokens by exactly the
+  # rendered ``<think>`` size; default / False strips them.
+  # Only effective when ``enable_thinking`` is also True.
+  preserve_thinking: true
+
+  # Append <tool_call>{...}</tool_call> example to the
+  # system prompt. Drop when the LLM/server already documents tool
+  # schemas via bind_tools and the literal example confuses generation.
+  include_tool_call_template: false
+
+agent:
+  # Benchmark overrides
+  max_search_limit: 10
+  max_turn: 15
+  # Question template — benchmarks override; raw / hiexp_boxed / browsecomp_plus
+  question_template: hiexp_boxed
+
+mcp:
+  transport: sse
+  search_tool: search
+  get_document_tool: get_document
+
+
+hek:
+  # ── HEK retrieval (eval/inference time) ──
+  # Toggled per experiment (CLI --enable-hek / --hek-path).
+  enabled: false
+  path: null
+  embedding_model: intfloat/multilingual-e5-base
+  e1_threshold: 0.8
+  e1_top_k: 3
+  e2_top_k: 5
+  use_e3_instead_of_e2: false
+
+  # ── HEK construction (sample_rollouts / build_hek) ──
+  # ``hf_source`` selects the HuggingFace-backed loader for benchmarks
+  # whose training set isn't a local file (e.g. HotpotQA → paper_mix).
+  # When ``data.splits.train`` is set (BCP), it's used directly and
+  # ``hf_source`` is ignored.
+  hf_source: null
+  num_train: -1         # -1 = full source
+  rollouts_per_example: 4
+  trajectory_shard_size: 1000
+  cluster_threshold: 0.6
+
+concurrency:
+  # Default LLM concurrency for any phase that batches LLM calls. Per-phase
+  # values default to this when null; override individually if needed.
+  llm: 16
+  rollout: null
+  distill: null
+  eval: null
+  judge: null
+
+judge:
+  # Judge model / base_url / api_key resolve from env (EVAL_JUDGE_*),
+  # falling back to AGENT_LLM_* if unset. These are sampling knobs only.
+  max_tokens: 8192
+  temperature: 0.0
+
+misc:
+  seed: 42
+  cache_dir: ./.hiexp_cache

@@ -1,0 +1,10 @@
+# Generic MCP tool provider — picks up the URL / transport / tool
+# name from the standard AGENT_MCP_* env vars. Use this when you
+# don't want to pin a specific retriever backend in the run name
+# (otherwise prefer one of the backend-specific configs, e.g.
+# ``qwen3-8b.yaml``).
+agent:
+  tool_provider: mcp
+  mcp_url: ${oc.env:AGENT_MCP_URL,http://127.0.0.1:8080/mcp}
+  mcp_search_tool_name: search
+  mcp_transport: ${oc.env:AGENT_MCP_TRANSPORT,sse}

@@ -1,0 +1,88 @@
+[project]
+name = "finder"
+version = "0.0.1"
+description = "FINDER: Studying and Repairing What Test-Time Learning Changes in Deep-Research Agents"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Yinxi Li", email = "y3395li@uwaterloo.ca" }]
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: POSIX :: Linux",
+]
+dependencies = [
+    "datasets>=4.8.4",
+    "ddgs>=9.14.4",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.3.2",
+    "langchain-mcp-adapters>=0.2.2",
+    "langchain-openai>=1.2.1",
+    "langchain-openrouter>=0.2.3",
+    "langgraph>=1.1.9",
+    "numpy>=2.2.6",
+    "omegaconf>=2.3.0",
+    "pydantic>=2.13.3",
+    "python-dotenv>=1.2.2",
+    "rich>=15.0.0",
+    "scikit-learn>=1.8.0",
+    "sentence-transformers>=5.4.1",
+    "typer>=0.24.1",
+    "wandb>=0.26.1",
+    "weave>=0.52.38",
+]
+
+[project.urls]
+# TODO: point these at the public repository before release
+Source = "https://github.com/larryinx/finder"
+Issues = "https://github.com/larryinx/finder/issues"
+
+[dependency-groups]
+dev = [
+    "coverage>=7.13.5",
+    "pytest>=9.0.3",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.11",
+    "ty>=0.0.31",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = ["search_ttl", "hiexp", "hiexp_prompt", "ace_react"]
+
+# testing (pytest) and coverage (coverage, pytest-cov)
+[tool.coverage.run]
+source_pkgs = ["search_ttl", "hiexp", "hiexp_prompt", "ace_react"]
+branch = true
+
+[tool.coverage.paths]
+source = ["src/", "*/site-packages/"]
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --strict-config --cov --cov-report xml:cov.xml"
+testpaths = ["tests"]
+xfail_strict = true
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+
+# linting (ruff)
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle error
+    "F",  # pyflakes
+    "I",  # isort
+    "UP", # pyupgrade
+    "B",  # flake8-bugbear
+]
+isort.known-first-party = ["search_ttl", "hiexp", "hiexp_prompt", "ace_react"]

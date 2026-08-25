@@ -1,0 +1,20 @@
+# DuckDuckGo web search tool — free, no API key, no MCP server.
+# Same role as serper.yaml (open-web search for benchmarks without a
+# vetted corpus, e.g. BrowseComp); pick this when you don't have / want
+# a serper.dev key. The LLM sees a single ``search(query: str)`` tool
+# wrapping DuckDuckGoSearchAPIWrapper.
+agent:
+  tool_provider: ddg
+  ddg:
+    max_results: 10
+    # region: wt-wt = no region weighting. safesearch: off|moderate|strict.
+    region: wt-wt
+    safesearch: moderate
+    # time filter: d|w|m|y or null for no limit.
+    time: null
+    # backend: auto|html|lite (auto picks a working endpoint).
+    backend: auto
+
+retriever:
+  name: duckduckgo
+  expected_top_k: 10

@@ -1,0 +1,13 @@
+# BCP retriever via MCP, qwen3-embedding-8b backend.
+# Selects the MCP tool provider and carries metadata about the
+# upstream retriever model (used by reflectors / curators that
+# print "the retriever is DENSE").
+agent:
+  tool_provider: mcp
+  mcp_url: ${oc.env:AGENT_MCP_URL,http://127.0.0.1:8080/mcp}
+  mcp_search_tool_name: search
+  mcp_transport: ${oc.env:AGENT_MCP_TRANSPORT,sse}
+
+retriever:
+  name: qwen3-embedding-8b
+  expected_top_k: 5

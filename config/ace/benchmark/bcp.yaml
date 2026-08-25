@@ -1,0 +1,15 @@
+# BrowseComp-Plus benchmark for ACE.
+
+benchmark:
+  name: browsecomp_plus
+  scorer_kind: llm_judge
+
+agent:
+  question_template: browsecomp_plus
+
+data:
+  decrypted_jsonl: data/BCP/data/browsecomp_plus_decrypted.jsonl
+  splits:
+    train: data/BCP/topics-qrels-ttl-train100/queries.tsv
+    val:   data/BCP/topics-qrels-ttl-val100/queries.tsv
+    test:  data/BCP/topics-qrels-ttl-test630/queries.tsv

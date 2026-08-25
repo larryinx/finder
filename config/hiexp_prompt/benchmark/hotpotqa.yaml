@@ -1,0 +1,28 @@
+# HotpotQA eval defaults — paper Table 1 main reproduction target.
+
+benchmark:
+  name: hotpotqa
+  scorer_kind: word_level
+  decisive_metric: cem
+
+agent:
+  question_template: hiexp_boxed
+  max_search_limit: 10
+  max_turn: 15
+
+data:
+  splits:
+    # HotpotQA train comes from HuggingFace, not a local file — see
+    # ``hek.hf_source`` below.
+    train: null
+    test:  data/hotpotqa/eval_hard.jsonl
+  default_split: dev
+  default_num_samples: 1000
+
+# HEK on HotpotQA reads training data via the HuggingFace loader keyed
+# by ``hek.hf_source``. ``paper_mix`` = R1-Searcher 8148 + MuSiQue 8000
+# (paper §A); switch via ``-o hek.hf_source=paper_mix_approx`` for the
+# FlashRAG-only fallback, or ``hotpotqa`` / ``2wikimultihopqa`` /
+# ``musique`` for single-source experiments.
+hek:
+  hf_source: paper_mix

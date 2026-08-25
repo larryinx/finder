@@ -1,0 +1,23 @@
+# Google Serper (serper.dev) web search tool — used to evaluate
+# the agent on benchmarks that don't ship a vetted retrieval
+# corpus (e.g. BrowseComp). No MCP server needed; the LLM sees a
+# single ``search(query: str)`` tool that wraps GoogleSerperAPIWrapper.
+agent:
+  tool_provider: serper
+  serper:
+    api_key: ${oc.env:SERPER_API_KEY,""}
+    # Optional fallback key. When the primary key returns "Not enough
+    # credits" (HTTP 400) or is rate-limited, the tool fails over to
+    # this one and sticks to it for the rest of the run. Leave the env
+    # var unset to disable failover.
+    backup_api_key: ${oc.env:SERPER_API_KEY_BACKUP,""}
+    num_results: 10
+    gl: us
+    hl: en
+    # Serper supports type=search|news|images|places. ``search``
+    # is the default and the only one wired into the agent today.
+    search_type: search
+
+retriever:
+  name: google_serper
+  expected_top_k: 10

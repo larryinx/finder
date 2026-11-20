@@ -1,0 +1,7 @@
+experience:
+  kind: staged_playbook
+  # Sections are FIXED (FIND / VERIFY / DECIDE) — there is no `sections:`
+  # key. `init_from` optionally seeds the playbook from an existing file
+  # (a legacy tactic_playbook file works too: TACTIC_A/B → FIND,
+  # TACTIC_C → VERIFY).
+  init_from: null

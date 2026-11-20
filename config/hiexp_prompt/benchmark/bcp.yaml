@@ -1,0 +1,16 @@
+# BrowseComp-Plus benchmark for HiExp prompt-based reproduction.
+
+benchmark:
+  name: browsecomp_plus
+  scorer_kind: llm_judge
+
+agent:
+  question_template: browsecomp_plus
+  max_search_limit: 50
+  max_turn: 50
+
+data:
+  decrypted_jsonl: data/BCP/data/browsecomp_plus_decrypted.jsonl
+  splits:
+    train: data/BCP/topics-qrels-ttl-train100/queries.tsv
+    test:  data/BCP/topics-qrels-ttl-test630/queries.tsv

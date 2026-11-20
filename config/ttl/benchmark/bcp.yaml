@@ -1,0 +1,7 @@
+data:
+  benchmark: browsecomp_plus
+  decrypted_jsonl: data/BCP/data/browsecomp_plus_decrypted.jsonl
+  splits:
+    train: data/BCP/topics-qrels-train500/queries.tsv
+    val:   data/BCP/topics-qrels-val100/queries.tsv
+    test:  data/BCP/topics-qrels-ttl-test630/queries.tsv

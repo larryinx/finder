@@ -1,0 +1,46 @@
+# Defaults shared across all ACE tasks regardless of benchmark / mode.
+
+llm:
+  temperature: 1.0
+  top_p: 0.95
+  max_response_tokens: 8192
+  api_flavor: chat_completions
+  enable_thinking: true
+  preserve_thinking: true
+  include_tool_call_template: false
+
+agent:
+  max_search_limit: 50
+  max_turn: 50
+  question_template: browsecomp_plus
+
+mcp:
+  transport: sse
+  search_tool: search
+  get_document_tool: get_document
+
+hek:
+  enabled: false
+
+ace:
+  num_epochs: 1
+  max_num_rounds: 3
+  curator_frequency: 1
+  token_budget: 80000
+  eval_steps: 100
+  save_steps: 25
+  use_bulletpoint_analyzer: false
+  # Serial: playbook is shared state in online; asyncio.run reentry breaks
+  # under concurrent test workers in offline. Don't change without measuring.
+  test_workers: 1
+  # Whether the gold answer leaks to the Reflector (paper Table 1
+  # GT-Labels). The orchestrator's verdict still goes through the
+  # LLM-as-judge regardless.
+  no_ground_truth: false
+  # Skip ACE's empty-playbook eval before training. With ReAct + serial
+  # workers the initial eval takes hours and only reproduces the baseline
+  # we already have. Override per-experiment if needed.
+  skip_initial_test: true
+
+misc:
+  seed: 42

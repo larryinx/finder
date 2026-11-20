@@ -1,0 +1,39 @@
+# 5-minute end-to-end smoke. Train100 + Val20, tiny budgets.
+
+data:
+  splits:
+    train: data/BCP/topics-qrels-train100/queries.tsv
+    val:   data/BCP/topics-qrels-val20/queries.tsv
+  train_batch_size: 2
+
+rollout:
+  n: 2
+  concurrency: 4
+
+actor:
+  mini_batch_size: 4         # 2 × 2 — one curator call per step
+  micro_batch_size: 2        # = rollout.n — one task per chunk
+  epochs: 1
+
+reflector:
+  max_react_turns: 4
+  max_search_calls: 2
+  concurrency: 2
+
+curator:
+  max_react_turns: 8
+  conservativeness:
+    max_add_per_step: 2
+    max_modify_per_step: 1
+    max_delete_per_step: 1
+    max_total_edits_per_step: 3
+
+eval:
+  eval_every_n_steps: 1
+  eval_split: val
+  concurrency: 4
+
+trainer:
+  save_freq: 1
+  total_epochs: 1
+  total_training_steps: 2

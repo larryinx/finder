@@ -1,0 +1,8 @@
+# ACE offline mode
+
+ace:
+  mode: offline
+  num_epochs: 1
+  eval_steps: 100
+  save_steps: 25
+  skip_initial_test: true

@@ -1,0 +1,12 @@
+# BrowseComp — open-web evaluation set
+
+data:
+  benchmark: browsecomp
+  decrypted_jsonl: data/browsecomp/eval.jsonl
+  splits:
+    train: data/browsecomp/eval.jsonl
+    val:   data/browsecomp/eval.jsonl
+    test:  data/browsecomp/eval.jsonl
+
+agent:
+  user_prompt_template: browsecomp

@@ -1,0 +1,16 @@
+# DuckDuckGo web search tool
+agent:
+  tool_provider: ddg
+  ddg:
+    max_results: 10
+    # region: wt-wt = no region weighting. safesearch: off|moderate|strict.
+    region: wt-wt
+    safesearch: moderate
+    # time filter: d|w|m|y or null for no limit.
+    time: null
+    # backend: auto|html|lite (auto picks a working endpoint).
+    backend: auto
+
+retriever:
+  name: duckduckgo
+  expected_top_k: 10

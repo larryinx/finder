@@ -1,0 +1,13 @@
+# No-judge reward for multi-hop QA (HotpotQA / 2Wiki / Musique /
+# Bamboogle). Computes Search-o1-compatible F1 / CEM / EM against the
+# full ``golden_answers`` list (max-over-golds). Zero LLM cost.
+reward:
+  kind: qa_em_f1
+  concurrency: 16
+  # Which binary metric drives RewardReport.correctness (and thus
+  # best.md tracking + reflector "correct/incorrect" labels):
+  #   * ``em``  — exact match after normalization. Strictest.
+  #   * ``cem`` — gold is a substring of the normalized prediction.
+  #               Matches the HiExp paper's headline number for
+  #               multi-hop QA. Default.
+  correctness_metric: cem

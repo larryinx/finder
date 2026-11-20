@@ -1,0 +1,7 @@
+# ACE online mode
+
+ace:
+  mode: online
+  # Online mode doesn't run train/val; eval_steps is unused.
+  save_steps: 25
+  skip_initial_test: false

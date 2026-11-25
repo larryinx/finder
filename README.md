@@ -3,7 +3,7 @@
 ![arXiv paper coming soon](https://img.shields.io/badge/arXiv-coming_soon-lightgrey?logo=arxiv)
 [![Hugging Face artifacts](https://img.shields.io/badge/Hugging_Face-Artifacts-FFD21E?logo=huggingface)](https://huggingface.co/datasets/Yinxxx/finder-bcp-artifacts)
 
-FINDER studies how search agents learn from past attempts on BrowseComp-Plus. After each batch of questions, TTL-Search uses the agent's search traces and answer scores to revise a playbook in its prompt.
+FINDER studies how agents learn from past attempts on deep-research agentic tasks. After each batch of questions, FINDER uses the agent's search traces and answer scores to revise a playbook in its prompt.
 
 ## 📌 Set up the environment and data
 
@@ -71,11 +71,11 @@ checkpoints/global_step_N/      Saved state for resuming training
 eval/final_test/metrics.json    Scores on the held-out test set
 ```
 
-## 🧩 5. Extend the code
+## 🧩 Extend the code
 
 TTL-Search uses YAML files in `config/ttl/` to select the reward, reflector, curator, and playbook implementation. Pass `-o key=value` to override a setting for one run. The [developer guide](doc/README.md) explains how these components fit together and how to add a component, benchmark, or search tool.
 
-## 🔧 6. Run the tests
+## 🔧 Run the tests
 
 Run the offline tests from the repository root.
 
